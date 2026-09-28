@@ -1,0 +1,25 @@
+{
+  "name": "enterprise-project-management",
+  "version": "1.0.0",
+  "private": true,
+  "description": "企业项目管理前端与 MySQL 后端",
+  "type": "module",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "db:init": "node server/scripts/init-db.js",
+    "db:seed": "node server/scripts/init-db.js --seed-only",
+    "db:migrate": "node server/scripts/migrate.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "mysql2": "^3.14.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

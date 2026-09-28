@@ -1,0 +1,1183 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f8fc" />
+    <title>企业项目管理</title>
+    <script>
+      if (!sessionStorage.getItem("pm_auth") && !localStorage.getItem("pm_auth")) {
+        window.location.replace("./login.html");
+      }
+    </script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <svg class="svg-sprite" aria-hidden="true">
+      <symbol id="icon-grid" viewBox="0 0 24 24">
+        <rect width="7" height="7" x="3" y="3" rx="1.5"></rect>
+        <rect width="7" height="7" x="14" y="3" rx="1.5"></rect>
+        <rect width="7" height="7" x="3" y="14" rx="1.5"></rect>
+        <rect width="7" height="7" x="14" y="14" rx="1.5"></rect>
+      </symbol>
+      <symbol id="icon-folder" viewBox="0 0 24 24">
+        <path d="M3 7.5a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      </symbol>
+      <symbol id="icon-check-square" viewBox="0 0 24 24">
+        <path d="M9 11l3 3L22 4"></path>
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+      </symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24">
+        <path d="M8 2v4M16 2v4M3 10h18"></path>
+        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+        <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"></path>
+      </symbol>
+      <symbol id="icon-users" viewBox="0 0 24 24">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </symbol>
+      <symbol id="icon-chart" viewBox="0 0 24 24">
+        <path d="M3 3v18h18"></path>
+        <path d="M7 16l4-5 4 3 5-7"></path>
+      </symbol>
+      <symbol id="icon-settings" viewBox="0 0 24 24">
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="M21 21l-4.3-4.3"></path>
+      </symbol>
+      <symbol id="icon-bell" viewBox="0 0 24 24">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24">
+        <path d="M12 3v12M7 10l5 5 5-5"></path>
+        <path d="M5 21h14"></path>
+      </symbol>
+      <symbol id="icon-user-plus" viewBox="0 0 24 24">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M19 8v6M16 11h6"></path>
+      </symbol>
+      <symbol id="icon-network" viewBox="0 0 24 24">
+        <rect width="6" height="6" x="9" y="3" rx="1.5"></rect>
+        <rect width="6" height="6" x="3" y="15" rx="1.5"></rect>
+        <rect width="6" height="6" x="15" y="15" rx="1.5"></rect>
+        <path d="M12 9v3M6 15v-3h12v3"></path>
+      </symbol>
+      <symbol id="icon-briefcase" viewBox="0 0 24 24">
+        <rect width="18" height="14" x="3" y="7" rx="2"></rect>
+        <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"></path>
+      </symbol>
+      <symbol id="icon-monitor" viewBox="0 0 24 24">
+        <rect width="20" height="14" x="2" y="3" rx="2"></rect>
+        <path d="M8 21h8M12 17v4"></path>
+      </symbol>
+      <symbol id="icon-log-out" viewBox="0 0 24 24">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"></path>
+      </symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24">
+        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+        <path d="M22 7l-10 6L2 7"></path>
+      </symbol>
+      <symbol id="icon-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14"></path>
+      </symbol>
+      <symbol id="icon-menu" viewBox="0 0 24 24">
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </symbol>
+      <symbol id="icon-x" viewBox="0 0 24 24">
+        <path d="M18 6L6 18M6 6l12 12"></path>
+      </symbol>
+      <symbol id="icon-more" viewBox="0 0 24 24">
+        <circle cx="5" cy="12" r="1"></circle>
+        <circle cx="12" cy="12" r="1"></circle>
+        <circle cx="19" cy="12" r="1"></circle>
+      </symbol>
+      <symbol id="icon-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M12 7v5l3 2"></path>
+      </symbol>
+      <symbol id="icon-alert" viewBox="0 0 24 24">
+        <path d="M10.3 3.6L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.6a2 2 0 0 0-3.4 0z"></path>
+        <path d="M12 9v4M12 17h.01"></path>
+      </symbol>
+      <symbol id="icon-arrow-right" viewBox="0 0 24 24">
+        <path d="M5 12h14M13 6l6 6-6 6"></path>
+      </symbol>
+      <symbol id="icon-trend-up" viewBox="0 0 24 24">
+        <path d="M3 17l6-6 4 4 8-8"></path>
+        <path d="M15 7h6v6"></path>
+      </symbol>
+      <symbol id="icon-shield" viewBox="0 0 24 24">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        <path d="M9 12l2 2 4-4"></path>
+      </symbol>
+    </svg>
+
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          <span class="brand-copy">
+            <strong>企业项目管理</strong>
+            <span>项目运营中心</span>
+          </span>
+        </div>
+
+        <nav class="primary-nav" aria-label="主导航">
+          <a class="nav-item is-active" href="#overview" data-view="overview" data-nav="overview" aria-current="page">
+            <svg class="icon"><use href="#icon-grid"></use></svg>
+            <span>项目总览</span>
+          </a>
+          <a class="nav-item" href="#people" data-view="people" data-nav="people">
+            <svg class="icon"><use href="#icon-user-plus"></use></svg>
+            <span>人员与团队</span>
+          </a>
+          <a class="nav-item" href="#projects" data-view="projects" data-nav="projects">
+            <svg class="icon"><use href="#icon-folder"></use></svg>
+            <span>项目列表</span>
+          </a>
+          <a class="nav-item" href="#assets" data-view="assets" data-nav="assets">
+            <svg class="icon"><use href="#icon-monitor"></use></svg>
+            <span>资产台账</span>
+          </a>
+          <a class="nav-item" href="#calendar" data-view="calendar" data-nav="calendar">
+            <svg class="icon"><use href="#icon-calendar"></use></svg>
+            <span>交付日历</span>
+          </a>
+        </nav>
+
+        <nav class="secondary-nav" aria-label="辅助导航">
+          <a class="nav-item" href="#reports">
+            <svg class="icon"><use href="#icon-chart"></use></svg>
+            <span>经营报表</span>
+          </a>
+          <a class="nav-item" href="#settings">
+            <svg class="icon"><use href="#icon-settings"></use></svg>
+            <span>系统设置</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-user">
+          <span class="avatar avatar-large avatar-name">理员</span>
+          <span class="user-copy">
+            <strong>admin</strong>
+            <span>超级管理员</span>
+          </span>
+          <button class="icon-button icon-button-dark" id="accountMenuButton" type="button" aria-label="账户菜单" title="账户菜单">
+            <svg class="icon"><use href="#icon-more"></use></svg>
+          </button>
+          <div class="account-menu" id="accountMenu" hidden>
+            <button type="button" id="accountProfileButton">
+              <svg class="icon"><use href="#icon-briefcase"></use></svg>
+              <span>账号资料</span>
+            </button>
+            <button type="button" id="logoutButton">
+              <svg class="icon"><use href="#icon-log-out"></use></svg>
+              <span>退出登录</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <button class="scrim" id="scrim" type="button" aria-label="关闭导航"></button>
+
+      <main class="workspace" id="overview">
+        <header class="topbar">
+          <div class="topbar-leading">
+            <button class="icon-button menu-button" id="menuButton" type="button" aria-label="打开导航" title="打开导航">
+              <svg class="icon"><use href="#icon-menu"></use></svg>
+            </button>
+            <div class="page-heading">
+              <h1 id="pageTitle">企业项目管理</h1>
+              <p id="pageSubtitle">2026 年 9 月 28 日，星期一</p>
+            </div>
+          </div>
+
+          <div class="topbar-actions">
+            <label class="search-field">
+              <svg class="icon"><use href="#icon-search"></use></svg>
+              <span class="sr-only">搜索项目</span>
+              <input id="projectSearch" type="search" placeholder="搜索项目或负责人" autocomplete="off" />
+              <kbd>⌘ K</kbd>
+            </label>
+            <button class="button button-secondary topbar-export" id="exportButton" type="button">
+              <svg class="icon"><use href="#icon-download"></use></svg>
+              <span>导出周报</span>
+            </button>
+            <button class="icon-button notification-button" id="notificationButton" type="button" aria-label="通知" title="通知">
+              <svg class="icon"><use href="#icon-bell"></use></svg>
+              <span class="notification-count" aria-hidden="true">3</span>
+            </button>
+            <button class="button button-primary" id="newProjectButton" type="button">
+              <svg class="icon"><use href="#icon-plus"></use></svg>
+              <span>新建项目</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="content app-view" id="overviewView" data-view-panel="overview">
+          <section class="portfolio-header" aria-labelledby="portfolioTitle">
+            <div class="portfolio-intro">
+              <h2 id="portfolioTitle">项目组合整体健康，3 个项目需要关注</h2>
+              <p>本周有 7 个交付节点，其中 2 个项目临近上线，1 个项目存在资源缺口。</p>
+              <a class="text-link" href="#projects">
+                <span>查看风险清单</span>
+                <svg class="icon"><use href="#icon-arrow-right"></use></svg>
+              </a>
+            </div>
+
+            <div class="portfolio-summary">
+              <div class="portfolio-metrics" aria-label="项目组合概况">
+                <div class="metric-item">
+                  <strong id="totalProjectMetric">24</strong>
+                  <span>在管项目</span>
+                </div>
+                <div class="metric-item">
+                  <strong>7</strong>
+                  <span>本月交付</span>
+                </div>
+                <div class="metric-item metric-warning">
+                  <strong>3</strong>
+                  <span>风险项目</span>
+                </div>
+              </div>
+
+              <div class="health-overview" aria-label="项目组合健康度">
+                <div class="health-heading">
+                  <span>组合健康度</span>
+                  <strong>86%</strong>
+                </div>
+                <div class="health-track" aria-hidden="true">
+                  <i class="health-ok" style="width: 75%"></i>
+                  <i class="health-watch" style="width: 12.5%"></i>
+                  <i class="health-late" style="width: 12.5%"></i>
+                </div>
+                <div class="health-legend">
+                  <span><i class="health-ok"></i>按计划 18</span>
+                  <span><i class="health-watch"></i>需关注 3</span>
+                  <span><i class="health-late"></i>已延期 3</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="main-grid">
+            <section class="projects-section" id="projects" aria-labelledby="projectsTitle">
+              <div class="section-heading projects-heading">
+                <div>
+                  <h2 id="projectsTitle">项目进度</h2>
+                  <p>当前显示 <span class="visible-project-count">6</span> 个重点项目</p>
+                </div>
+                <div class="filter-group" aria-label="项目筛选">
+                  <button class="filter-button is-active" type="button" data-filter="all">全部</button>
+                  <button class="filter-button" type="button" data-filter="risk">有风险</button>
+                  <button class="filter-button" type="button" data-filter="week">本周交付</button>
+                </div>
+              </div>
+
+              <div class="project-table-wrap">
+                <table class="project-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">项目</th>
+                      <th scope="col">负责人</th>
+                      <th scope="col">进度</th>
+                      <th scope="col">交付时间</th>
+                      <th scope="col">状态</th>
+                      <th scope="col"><span class="sr-only">操作</span></th>
+                    </tr>
+                  </thead>
+                  <tbody id="projectTableBody"></tbody>
+                </table>
+                <div class="project-table-footer">
+                  <span>已显示 <strong class="visible-project-count">6</strong> / 24 个项目</span>
+                  <button class="text-link compact" id="viewAllProjectsButton" type="button">
+                    <span>查看全部项目</span>
+                    <svg class="icon"><use href="#icon-arrow-right"></use></svg>
+                  </button>
+                </div>
+                <div class="empty-state" id="emptyState" hidden>
+                  <svg class="icon"><use href="#icon-search"></use></svg>
+                  <h3>没有匹配的项目</h3>
+                  <p>换一个名称或筛选条件再试。</p>
+                  <button class="button button-secondary" id="clearFiltersButton" type="button">清除筛选</button>
+                </div>
+              </div>
+            </section>
+
+            <aside class="agenda-section" aria-labelledby="agendaTitle">
+              <div class="section-heading agenda-heading">
+                <div>
+                  <h2 id="agendaTitle">待我处理</h2>
+                  <p>3 项需要在周五前完成</p>
+                </div>
+                <span class="agenda-count">3</span>
+              </div>
+
+              <div class="agenda-list">
+                <button class="agenda-item" type="button" data-project-id="4">
+                  <span class="agenda-date">
+                    <strong>02</strong>
+                    <span>10 月</span>
+                  </span>
+                  <span class="agenda-copy">
+                    <strong>海外站点上线</strong>
+                    <span>合规材料待确认 · 陈思负责</span>
+                  </span>
+                  <svg class="icon"><use href="#icon-arrow-right"></use></svg>
+                </button>
+                <button class="agenda-item" type="button" data-project-id="3">
+                  <span class="agenda-date">
+                    <strong>05</strong>
+                    <span>10 月</span>
+                  </span>
+                  <span class="agenda-copy">
+                    <strong>客户主数据治理</strong>
+                    <span>业务规则仍待签字 · 贺宁负责</span>
+                  </span>
+                  <svg class="icon"><use href="#icon-arrow-right"></use></svg>
+                </button>
+                <button class="agenda-item" type="button" data-project-id="1">
+                  <span class="agenda-date">
+                    <strong>08</strong>
+                    <span>10 月</span>
+                  </span>
+                  <span class="agenda-copy">
+                    <strong>数据中台二期</strong>
+                    <span>开发资源缺口 2 人 · 林悦负责</span>
+                  </span>
+                  <svg class="icon"><use href="#icon-arrow-right"></use></svg>
+                </button>
+              </div>
+
+              <div class="team-load">
+                <div class="team-load-heading">
+                  <h3>本周团队负载</h3>
+                  <span>平均 76%</span>
+                </div>
+                <div class="load-row">
+                  <span>研发中心</span>
+                  <div class="load-bar"><i style="width: 92%"></i></div>
+                  <strong>92%</strong>
+                </div>
+                <div class="load-row">
+                  <span>产品与设计</span>
+                  <div class="load-bar"><i style="width: 72%"></i></div>
+                  <strong>72%</strong>
+                </div>
+                <div class="load-row">
+                  <span>实施交付</span>
+                  <div class="load-bar"><i style="width: 64%"></i></div>
+                  <strong>64%</strong>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+
+        <section class="content app-view" id="projectsView" data-view-panel="projects" hidden>
+          <header class="management-header">
+            <div>
+              <h2>项目列表</h2>
+              <p>查看全部项目，并按状态筛选或新建项目。</p>
+            </div>
+            <button class="button button-primary" id="newProjectListButton" type="button">
+              <svg class="icon"><use href="#icon-plus"></use></svg>
+              <span>新建项目</span>
+            </button>
+          </header>
+
+          <div class="section-heading projects-heading project-list-heading">
+            <p>当前显示 <span class="visible-project-count">6</span> / 24 个项目</p>
+            <div class="filter-group" aria-label="项目列表筛选">
+              <button class="filter-button is-active" type="button" data-filter="all">全部</button>
+              <button class="filter-button" type="button" data-filter="risk">有风险</button>
+              <button class="filter-button" type="button" data-filter="week">本周交付</button>
+            </div>
+          </div>
+
+          <div class="project-table-wrap project-list-table-wrap">
+            <table class="project-table">
+              <thead>
+                <tr>
+                  <th scope="col">项目</th>
+                  <th scope="col">负责人</th>
+                  <th scope="col">进度</th>
+                  <th scope="col">交付时间</th>
+                  <th scope="col">状态</th>
+                  <th scope="col"><span class="sr-only">操作</span></th>
+                </tr>
+              </thead>
+              <tbody id="allProjectTableBody"></tbody>
+            </table>
+            <div class="empty-state" id="allProjectEmptyState" hidden>
+              <svg class="icon"><use href="#icon-search"></use></svg>
+              <h3>没有匹配的项目</h3>
+              <p>换一个名称或筛选条件再试。</p>
+              <button class="button button-secondary" id="clearProjectListFiltersButton" type="button">
+                清除筛选
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="content app-view" id="assetsView" data-view-panel="assets" hidden>
+          <header class="management-header">
+            <div>
+              <h2>资产台账</h2>
+              <p>统一统计企业电脑、服务器、网络设备、打印机等固定资产。</p>
+            </div>
+            <button class="button button-primary" id="addAssetButton" type="button">
+              <svg class="icon"><use href="#icon-plus"></use></svg>
+              <span>新增资产</span>
+            </button>
+          </header>
+
+          <div class="management-stats asset-stats" aria-label="资产概况">
+            <div>
+              <strong id="assetTotalMetric">0</strong>
+              <span>资产总数</span>
+            </div>
+            <div>
+              <strong id="assetInUseMetric">0</strong>
+              <span>使用中</span>
+            </div>
+            <div>
+              <strong id="assetRepairMetric">0</strong>
+              <span>维修中</span>
+            </div>
+            <div>
+              <strong id="assetWarrantyMetric">0</strong>
+              <span>90 天内过保</span>
+            </div>
+          </div>
+
+          <div class="management-toolbar asset-toolbar">
+            <label class="management-search">
+              <svg class="icon"><use href="#icon-search"></use></svg>
+              <span class="sr-only">搜索资产</span>
+              <input id="assetSearch" type="search" placeholder="搜索资产编号、名称、型号、序列号或 IP" />
+            </label>
+            <label class="select-field">
+              <span>类型</span>
+              <select id="assetCategoryFilter">
+                <option value="all">全部类型</option>
+                <option value="pc">台式电脑</option>
+                <option value="laptop">笔记本</option>
+                <option value="server">服务器</option>
+                <option value="switch">交换机</option>
+                <option value="router">路由器</option>
+                <option value="firewall">防火墙</option>
+                <option value="printer">打印机</option>
+                <option value="monitor">显示器</option>
+                <option value="other">其他设备</option>
+              </select>
+            </label>
+            <label class="select-field">
+              <span>状态</span>
+              <select id="assetStatusFilter">
+                <option value="all">全部状态</option>
+                <option value="in_use">使用中</option>
+                <option value="idle">闲置</option>
+                <option value="repair">维修中</option>
+                <option value="retired">已报废</option>
+              </select>
+            </label>
+            <span class="result-count" id="assetResultCount">0 项资产</span>
+          </div>
+
+          <div class="asset-table-wrap">
+            <table class="asset-table">
+              <thead>
+                <tr>
+                  <th scope="col">资产</th>
+                  <th scope="col">类型</th>
+                  <th scope="col">品牌型号</th>
+                  <th scope="col">使用人 / 部门</th>
+                  <th scope="col">位置</th>
+                  <th scope="col">网络信息</th>
+                  <th scope="col">状态</th>
+                  <th scope="col">保修截止</th>
+                </tr>
+              </thead>
+              <tbody id="assetTableBody"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="assetEmptyState" hidden>
+            <svg class="icon"><use href="#icon-search"></use></svg>
+            <h3>没有匹配的资产</h3>
+            <p>调整搜索条件或筛选状态后再试。</p>
+            <button class="button button-secondary" id="clearAssetFiltersButton" type="button">
+              清除筛选
+            </button>
+          </div>
+        </section>
+
+        <section class="content app-view" id="peopleView" data-view-panel="people" hidden>
+          <header class="management-header">
+            <div>
+              <h2>人员与团队</h2>
+              <p>在同一页维护用户信息、组织归属和团队成员。</p>
+            </div>
+            <button class="button button-primary" id="addUserButton" type="button">
+              <svg class="icon"><use href="#icon-user-plus"></use></svg>
+              <span>新建用户</span>
+            </button>
+          </header>
+
+          <div class="management-stats" aria-label="用户概况">
+            <div>
+              <strong id="activeUserMetric">9</strong>
+              <span>活跃用户</span>
+            </div>
+            <div>
+              <strong id="teamMetric">4</strong>
+              <span>团队数量</span>
+            </div>
+            <div>
+              <strong id="managerMetric">3</strong>
+              <span>管理者</span>
+            </div>
+            <div>
+              <strong id="projectOwnerMetric">6</strong>
+              <span>项目负责人</span>
+            </div>
+          </div>
+
+          <div class="management-toolbar">
+            <label class="management-search">
+              <svg class="icon"><use href="#icon-search"></use></svg>
+              <span class="sr-only">搜索用户</span>
+              <input id="userSearch" type="search" placeholder="搜索姓名、账号、角色或上级" />
+            </label>
+            <label class="select-field">
+              <span>团队</span>
+              <select id="userTeamFilter">
+                <option value="all">全部团队</option>
+              </select>
+            </label>
+            <span class="result-count" id="userResultCount">9 位用户</span>
+          </div>
+
+          <div class="user-table-wrap">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th scope="col">用户</th>
+                  <th scope="col">角色</th>
+                  <th scope="col">团队</th>
+                  <th scope="col">直属上级</th>
+                  <th scope="col">项目关联</th>
+                  <th scope="col">状态</th>
+                  <th scope="col"><span class="sr-only">操作</span></th>
+                </tr>
+              </thead>
+              <tbody id="userTableBody"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="userEmptyState" hidden>
+            <svg class="icon"><use href="#icon-search"></use></svg>
+            <h3>没有匹配的用户</h3>
+            <p>调整搜索词或团队筛选后再试。</p>
+          </div>
+
+          <section class="management-subsection" aria-labelledby="teamSectionTitle">
+            <div class="section-heading">
+              <div>
+                <h2 id="teamSectionTitle">团队编制</h2>
+                <p>只保留团队负责人和成员，可直接增删人员。</p>
+              </div>
+              <span class="team-summary-text">
+                <span id="teamOverviewCount">4</span> 个团队 ·
+                <span id="teamMemberCount">9</span> 名成员
+              </span>
+            </div>
+            <div class="team-list" id="teamList"></div>
+          </section>
+        </section>
+
+        <section class="content app-view" id="calendarView" data-view-panel="calendar" hidden>
+          <header class="management-header">
+            <div>
+              <h2>交付日历</h2>
+              <p>按项目查看开始与结束时间，颜色与项目列表保持一致。</p>
+            </div>
+          </header>
+
+          <div class="calendar-toolbar">
+            <div class="calendar-navigation">
+              <button class="icon-button" id="calendarPrevButton" type="button" aria-label="上个月" title="上个月">
+                <svg class="icon calendar-chevron calendar-chevron-left"><use href="#icon-arrow-right"></use></svg>
+              </button>
+              <button class="button button-secondary" id="calendarTodayButton" type="button">今天</button>
+              <button class="icon-button" id="calendarNextButton" type="button" aria-label="下个月" title="下个月">
+                <svg class="icon"><use href="#icon-arrow-right"></use></svg>
+              </button>
+              <h3 id="calendarMonthTitle">2026 年 10 月</h3>
+            </div>
+          </div>
+
+          <div class="calendar-layout">
+            <div class="calendar-month">
+              <div class="calendar-weekdays" aria-hidden="true">
+                <span>周一</span>
+                <span>周二</span>
+                <span>周三</span>
+                <span>周四</span>
+                <span>周五</span>
+                <span>周六</span>
+                <span>周日</span>
+              </div>
+              <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+
+            <aside class="calendar-day-panel" aria-labelledby="calendarDayTitle">
+              <div class="calendar-day-heading">
+                <span id="calendarDayWeekday">星期五</span>
+                <h3 id="calendarDayTitle">10 月 2 日</h3>
+              </div>
+              <div class="calendar-day-events" id="calendarDayEvents"></div>
+              <div class="calendar-day-summary">
+                <span>当天安排</span>
+                <strong id="calendarDayEventCount">0 项</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <aside class="detail-drawer" id="detailDrawer" aria-labelledby="drawerTitle" aria-hidden="true">
+      <div class="drawer-header">
+        <div>
+          <span class="status-badge status-normal" id="drawerStatus">进行中</span>
+          <h2 id="drawerTitle">项目名称</h2>
+          <p id="drawerOwner">负责人</p>
+        </div>
+        <button class="icon-button" id="closeDrawerButton" type="button" aria-label="关闭项目详情" title="关闭">
+          <svg class="icon"><use href="#icon-x"></use></svg>
+        </button>
+      </div>
+      <div class="drawer-body">
+        <section class="drawer-overview">
+          <div class="drawer-progress">
+            <div class="progress-heading">
+              <span>当前进度</span>
+              <strong id="drawerProgress">0%</strong>
+            </div>
+            <div class="progress-track"><i id="drawerProgressBar"></i></div>
+          </div>
+          <div class="drawer-facts">
+            <div>
+              <span>计划交付</span>
+              <strong id="drawerDue">--</strong>
+            </div>
+            <div>
+              <span>预算执行</span>
+              <strong id="drawerBudget">--</strong>
+            </div>
+            <div>
+              <span>团队人数</span>
+              <strong id="drawerMembers">--</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="drawer-section">
+          <div class="drawer-section-heading">
+            <h3>项目信息</h3>
+          </div>
+          <div class="drawer-meta-grid">
+            <div class="drawer-meta-item">
+              <span>项目编号</span>
+              <strong id="drawerCode">--</strong>
+            </div>
+            <div class="drawer-meta-item">
+              <span>项目类型</span>
+              <strong id="drawerType">--</strong>
+            </div>
+            <div class="drawer-meta-item">
+              <span>所属部门</span>
+              <strong id="drawerDepartment">--</strong>
+            </div>
+            <div class="drawer-meta-item">
+              <span>优先级</span>
+              <strong id="drawerPriority">--</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="drawer-section">
+          <div class="drawer-section-heading">
+            <h3>关键里程碑</h3>
+            <span id="drawerMilestoneCount">0/0</span>
+          </div>
+          <div class="milestone-list" id="drawerMilestones"></div>
+        </section>
+
+        <section class="drawer-section">
+          <div class="drawer-section-heading">
+            <h3>当前问题</h3>
+          </div>
+          <div class="issue-note" id="drawerIssue">
+            <svg class="icon"><use href="#icon-alert"></use></svg>
+            <p>暂无需要升级的问题。</p>
+          </div>
+        </section>
+
+        <section class="drawer-section">
+          <div class="drawer-section-heading">
+            <h3>最近动态</h3>
+          </div>
+          <div class="activity-list" id="drawerActivity"></div>
+        </section>
+      </div>
+      <div class="drawer-footer">
+        <button class="button button-secondary" id="drawerMessageButton" type="button">联系负责人</button>
+        <button class="button button-primary" id="editProjectButton" type="button">编辑项目</button>
+      </div>
+    </aside>
+    <button class="drawer-scrim" id="drawerScrim" type="button" aria-label="关闭项目详情"></button>
+
+    <aside class="detail-drawer user-drawer" id="userDrawer" aria-labelledby="userDrawerTitle" aria-hidden="true">
+      <div class="drawer-header">
+        <div>
+          <span class="status-badge status-normal" id="userDrawerStatus">在职</span>
+          <h2 id="userDrawerTitle">用户名称</h2>
+          <p id="userDrawerRole">角色</p>
+        </div>
+        <button class="icon-button" id="closeUserDrawerButton" type="button" aria-label="关闭用户详情" title="关闭">
+          <svg class="icon"><use href="#icon-x"></use></svg>
+        </button>
+      </div>
+      <div class="drawer-body">
+        <section class="user-profile">
+          <span class="avatar user-avatar-large avatar-name" id="userDrawerAvatar">理员</span>
+          <div>
+            <strong id="userDrawerAccount">account</strong>
+            <span id="userDrawerEmail">email</span>
+          </div>
+        </section>
+
+        <section class="drawer-section">
+          <div class="drawer-section-heading">
+            <h3>组织关系</h3>
+          </div>
+          <div class="drawer-meta-grid">
+            <div class="drawer-meta-item">
+              <span>所属团队</span>
+              <strong id="userDrawerTeam">--</strong>
+            </div>
+            <div class="drawer-meta-item">
+              <span>直属上级</span>
+              <strong id="userDrawerManager">--</strong>
+            </div>
+            <div class="drawer-meta-item">
+              <span>岗位角色</span>
+              <strong id="userDrawerPosition">--</strong>
+            </div>
+            <div class="drawer-meta-item">
+              <span>账号状态</span>
+              <strong id="userDrawerAccountStatus">--</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="drawer-section">
+          <div class="drawer-section-heading">
+            <h3>项目关联</h3>
+            <span id="userDrawerProjectCount">0 个</span>
+          </div>
+          <div class="relation-list" id="userDrawerProjects"></div>
+        </section>
+
+        <section class="drawer-section">
+          <div class="drawer-section-heading">
+            <h3>团队协作</h3>
+          </div>
+          <div class="relation-list" id="userDrawerColleagues"></div>
+        </section>
+      </div>
+      <div class="drawer-footer">
+        <button class="button button-secondary" id="userTeamButton" type="button">调整团队</button>
+        <button class="button button-primary" id="userEditButton" type="button">编辑用户信息</button>
+      </div>
+    </aside>
+    <button class="drawer-scrim" id="userDrawerScrim" type="button" aria-label="关闭用户详情"></button>
+
+    <dialog class="project-dialog" id="projectDialog">
+      <form method="dialog" id="projectForm">
+        <div class="dialog-header">
+          <div>
+            <h2 id="projectDialogTitle">新建项目</h2>
+            <p id="projectDialogDescription">先建立项目，里程碑可在创建后进入编辑页面补充。</p>
+          </div>
+          <button class="icon-button" id="closeDialogButton" type="button" aria-label="关闭新建项目" title="关闭">
+            <svg class="icon"><use href="#icon-x"></use></svg>
+          </button>
+        </div>
+        <div class="dialog-body">
+          <input name="projectId" id="projectFormId" type="hidden" />
+          <label class="form-field">
+            <span>项目名称</span>
+            <input
+              name="name"
+              type="text"
+              placeholder="例如：华南仓储升级"
+              minlength="2"
+              maxlength="40"
+              required
+            />
+          </label>
+          <div class="form-grid form-grid-owner-due">
+            <label class="form-field">
+              <span>负责人</span>
+              <input name="owner" type="text" placeholder="姓名" minlength="1" maxlength="12" required />
+            </label>
+            <label class="form-field">
+              <span>计划交付</span>
+              <input name="due" type="date" min="2026-09-28" required />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>所属部门</span>
+              <select name="department" required>
+                <option value="">请选择所属部门</option>
+                <option>数字科技部</option>
+                <option>供应链中心</option>
+                <option>客户运营部</option>
+                <option>国际业务部</option>
+                <option>采购中心</option>
+                <option>客户服务中心</option>
+                <option>财务部</option>
+                <option>人力资源部</option>
+              </select>
+            </label>
+            <label class="form-field">
+              <span>项目类型</span>
+              <select name="type">
+                <option>业务系统</option>
+                <option>数据平台</option>
+                <option>基础设施</option>
+                <option>智能应用</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>项目阶段</span>
+              <select name="stage">
+                <option>需求分析</option>
+                <option selected>方案设计</option>
+                <option>开发实施</option>
+                <option>验收交付</option>
+              </select>
+            </label>
+            <label class="form-field">
+              <span>优先级</span>
+              <select name="priority">
+                <option>高</option>
+                <option selected>中</option>
+                <option>低</option>
+              </select>
+            </label>
+          </div>
+          <label class="form-field">
+            <span>项目说明</span>
+            <textarea
+              name="description"
+              rows="3"
+              maxlength="200"
+              placeholder="简要说明项目目标和交付范围"
+            ></textarea>
+          </label>
+          <section class="milestone-editor" id="milestoneEditor" hidden>
+            <div class="milestone-editor-heading">
+              <div>
+                <h3>项目里程碑</h3>
+                <p>按顺序设置里程碑名称、日期和完成状态。</p>
+              </div>
+              <button class="button button-secondary" id="addMilestoneRowButton" type="button">
+                <svg class="icon"><use href="#icon-plus"></use></svg>
+                <span>添加里程碑</span>
+              </button>
+            </div>
+            <div class="milestone-editor-list" id="milestoneEditorList"></div>
+          </section>
+        </div>
+        <div class="dialog-footer">
+          <button class="button button-secondary" id="cancelDialogButton" type="button">取消</button>
+          <button class="button button-primary" id="projectFormSubmitButton" type="submit">创建项目</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="project-dialog" id="userDialog">
+      <form method="dialog" id="userForm">
+        <div class="dialog-header">
+          <div>
+            <h2 id="userDialogTitle">新建用户</h2>
+            <p id="userDialogDescription">创建账号并设置团队、直属上级和岗位角色。</p>
+          </div>
+          <button class="icon-button" id="closeUserDialogButton" type="button" aria-label="关闭新建用户" title="关闭">
+            <svg class="icon"><use href="#icon-x"></use></svg>
+          </button>
+        </div>
+        <div class="dialog-body">
+          <input name="userId" id="userFormId" type="hidden" />
+          <div class="form-grid form-grid-account">
+            <label class="form-field">
+              <span>姓名</span>
+              <input name="name" type="text" placeholder="例如：沈言" minlength="2" maxlength="20" required />
+            </label>
+            <label class="form-field">
+              <span>登录账号</span>
+              <input
+                name="account"
+                type="text"
+                placeholder="例如：shen.yan"
+                pattern="[A-Za-z0-9._-]{3,24}"
+                minlength="3"
+                maxlength="24"
+                autocomplete="off"
+                spellcheck="false"
+                required
+              />
+            </label>
+          </div>
+          <div class="form-grid form-grid-manager">
+            <label class="form-field">
+              <span>岗位角色</span>
+              <select name="role">
+                <option>项目经理</option>
+                <option>高级项目经理</option>
+                <option>产品经理</option>
+                <option>研发负责人</option>
+                <option>测试负责人</option>
+                <option>项目专员</option>
+              </select>
+            </label>
+            <label class="form-field">
+              <span>所属团队</span>
+              <select name="teamId" id="userFormTeam"></select>
+            </label>
+          </div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>直属上级</span>
+              <select name="managerId" id="userFormManager"></select>
+            </label>
+            <label class="form-field">
+              <span>账号状态</span>
+              <select name="status">
+                <option value="active">在职</option>
+                <option value="probation">试用期</option>
+                <option value="disabled">已停用</option>
+              </select>
+            </label>
+          </div>
+          <label class="form-field">
+            <span>邮箱</span>
+            <input name="email" type="email" placeholder="name@company.com" maxlength="80" required />
+          </label>
+          <label class="form-field">
+            <span>初始密码</span>
+            <input
+              name="password"
+              id="userFormPassword"
+              type="password"
+              value="Aa123456"
+              minlength="8"
+              maxlength="32"
+              pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,32}"
+              autocomplete="new-password"
+              required
+            />
+          </label>
+        </div>
+        <div class="dialog-footer">
+          <button class="button button-secondary" id="cancelUserDialogButton" type="button">取消</button>
+          <button class="button button-primary" id="userFormSubmitButton" type="submit">创建用户</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="project-dialog team-dialog" id="teamDialog">
+      <form method="dialog" id="teamForm">
+        <div class="dialog-header">
+          <div>
+            <h2 id="teamDialogTitle">调整团队</h2>
+            <p>设置团队负责人，并勾选归属该团队的成员。</p>
+          </div>
+          <button class="icon-button" id="closeTeamDialogButton" type="button" aria-label="关闭团队调整" title="关闭">
+            <svg class="icon"><use href="#icon-x"></use></svg>
+          </button>
+        </div>
+        <div class="dialog-body">
+          <input name="teamId" id="teamFormId" type="hidden" />
+          <label class="form-field">
+            <span>团队负责人</span>
+            <select name="leaderId" id="teamFormLeader"></select>
+          </label>
+          <div class="form-field">
+            <span>团队成员</span>
+            <div class="team-member-picker" id="teamMemberPicker"></div>
+          </div>
+        </div>
+        <div class="dialog-footer">
+          <button class="button button-secondary" id="cancelTeamDialogButton" type="button">取消</button>
+          <button class="button button-primary" type="submit">保存团队</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="project-dialog asset-dialog" id="assetDialog">
+      <form method="dialog" id="assetForm">
+        <div class="dialog-header">
+          <div>
+            <h2 id="assetDialogTitle">新增资产</h2>
+            <p>登记设备基础信息、归属关系、网络参数与保修时间。</p>
+          </div>
+          <button class="icon-button" id="closeAssetDialogButton" type="button" aria-label="关闭资产信息" title="关闭">
+            <svg class="icon"><use href="#icon-x"></use></svg>
+          </button>
+        </div>
+        <div class="dialog-body">
+          <input name="assetId" id="assetFormId" type="hidden" />
+          <div class="form-grid form-grid-account">
+            <label class="form-field">
+              <span>资产编号</span>
+              <input name="assetCode" type="text" placeholder="例如：PC-DT-0013" maxlength="32" required />
+            </label>
+            <label class="form-field">
+              <span>资产名称</span>
+              <input name="name" type="text" placeholder="例如：研发办公电脑" maxlength="80" required />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>设备类型</span>
+              <select name="category">
+                <option value="pc">台式电脑</option>
+                <option value="laptop">笔记本</option>
+                <option value="server">服务器</option>
+                <option value="switch">交换机</option>
+                <option value="router">路由器</option>
+                <option value="firewall">防火墙</option>
+                <option value="printer">打印机</option>
+                <option value="monitor">显示器</option>
+                <option value="other">其他设备</option>
+              </select>
+            </label>
+            <label class="form-field">
+              <span>使用状态</span>
+              <select name="status">
+                <option value="in_use">使用中</option>
+                <option value="idle">闲置</option>
+                <option value="repair">维修中</option>
+                <option value="retired">已报废</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>品牌</span>
+              <input name="brand" type="text" placeholder="例如：Dell" maxlength="40" />
+            </label>
+            <label class="form-field">
+              <span>型号</span>
+              <input name="model" type="text" placeholder="例如：OptiPlex 7010" maxlength="80" />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>序列号</span>
+              <input name="serialNumber" type="text" placeholder="设备序列号" maxlength="80" />
+            </label>
+            <label class="form-field">
+              <span>所属部门</span>
+              <select name="department" id="assetFormDepartment" required></select>
+            </label>
+          </div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>使用人</span>
+              <select name="ownerId" id="assetFormOwner"></select>
+            </label>
+            <label class="form-field">
+              <span>存放位置</span>
+              <input name="location" type="text" placeholder="例如：上海总部 3F-研发区" maxlength="100" />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>采购日期</span>
+              <input name="purchaseDate" type="date" />
+            </label>
+            <label class="form-field">
+              <span>保修截止</span>
+              <input name="warrantyEnd" type="date" />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>采购金额</span>
+              <input name="purchasePrice" type="number" min="0" step="0.01" placeholder="0.00" />
+            </label>
+            <label class="form-field">
+              <span>供应商</span>
+              <input name="supplier" type="text" placeholder="供应商名称" maxlength="80" />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>IP 地址</span>
+              <input
+                name="ipAddress"
+                type="text"
+                placeholder="例如：10.10.1.2"
+                maxlength="45"
+                pattern="^$|^((25[0-5]|2[0-4]\d|1?\d?\d)(\.|$)){4}$"
+              />
+            </label>
+            <label class="form-field">
+              <span>MAC 地址</span>
+              <input
+                name="macAddress"
+                type="text"
+                placeholder="例如：00:1B:44:11:3A:B7"
+                maxlength="32"
+              />
+            </label>
+          </div>
+          <label class="form-field">
+            <span>规格配置</span>
+            <input name="specs" type="text" placeholder="CPU、内存、硬盘、端口数量等" maxlength="200" />
+          </label>
+          <label class="form-field">
+            <span>备注</span>
+            <textarea name="notes" rows="3" maxlength="200" placeholder="资产说明或维修记录"></textarea>
+          </label>
+        </div>
+        <div class="dialog-footer">
+          <button class="button button-secondary" id="cancelAssetDialogButton" type="button">取消</button>
+          <button class="button button-primary" id="assetFormSubmitButton" type="submit">保存资产</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./api-client.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
